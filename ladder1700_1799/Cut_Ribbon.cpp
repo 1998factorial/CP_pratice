@@ -23,9 +23,4 @@ int main(){
 }
 
 
-def copy(self):
-    ans = Matrix(self.m , self.n)
-    for i in range(0,self.m):
-        for j in range(0,selfn):
-            ans.matrix[i][j] = self.matrix[i][j]
-    return ans
+
