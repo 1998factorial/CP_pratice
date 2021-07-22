@@ -1,0 +1,25 @@
+show case when x = 1
+for j = 1: +x works -x works
+for j = 2: +x works -x works
+for j = 3: -x works
+show case when x = 2
+for j = 1: +x works 
+for j = 2: -x works
+for j = 3: -x works
+show case when x = 3
+for j = 1: 
+for j = 2: 
+for j = 3: -x works
+show case when x = 4
+for j = 1: 
+for j = 2: 
+for j = 3: 
+show case when x = 5
+for j = 1: 
+for j = 2: 
+for j = 3: 
+show case when x = 6
+for j = 1: 
+for j = 2: 
+for j = 3: 
+0
