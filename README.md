@@ -34,10 +34,37 @@ solution: A very smart way of dp. To buy a card the cost for red token is max(0 
 if cost for red = r[i] and cost for blue = b[i], what is the minimal day needed to buy all cards? The answer is max(sum{r[i]} , sum{b[i]}). Also, for those r[i] or b[i] >= N, their cost will always be r[i] - R or b[i] - B. So we mainly focus on those r[i] , b[i] < N. Now, we can dp. let dp[mask][i] be the maximal amount of blue token that we can save when we have bought mask (set) of cards, and saved i red tokens in total. (note that i < N^2)
 
 https://codeforces.com/contest/840/problem/C
-solution: combinatoric dp
+we want to re-arrange the array, so that no adjcent pair a[i] * a[i + 1] is a perfect square. if a * b and b * c is perfect square, then a * c is also a perfect square. eg, 2 * 8 and 8 * 18. why? if a * b is perfect square, then for each p^x | a, and p^y | b, (x + y) % 2 = 0. so x and y have same parity. this relation is transitive, so for each p^x | a , p^y | b , p^z | c , (x + y) = (y + z) = (x + z) % 2. We can therefore group all pairwise perfect square. (Same as give them colour)
+Now, our problem is the same as: given K different groups of elements, each have cnt[i] elements, we want to find the number of ways to arrange these elements into a row, such that no adjcent elements are from the same group. Let's try to solve this, group by group. Let dp[i][j] = the number of ways to arrange elements from first i groups, such that we have exactly j bad pairs (bad pair means adjcent pair are from same group) Consider the i+1 th group. First, we need to consider how many consecutive blocks that we are going to divide these cnt[i+1] elements into.
+Say we divide them into x blocks, in how many ways can we do this? let f[n][k] = the number of ways to divide n elements into k non-empty groups, group-wise order doesn't matter, but element wise ordering matters. f[n][k] = f[n - 1][k - 1] + f[n - 1][k] * (n - 1 + k). (think each element as white balls , group can be black balls, put between white balls as barrier , the number of ways to not create another group while inserting nth element is (n - 1 + k) * f[n - 1][k])
+Now, we are at dp[i][j] and we divide cnt[i+1] elements into x blocks, with f[cnt[i+1]][x] ways, we then consider how many "original bad pairs" we will destroy. Say y of them. we are puting y blocks from x blocks into these y bad pair positions.
+And the rest of x - y blocks will be put in good positions. let sum{cnt[k] , k <= i} = prefix. we have dp[i + 1][j - y + cnt[i + 1] - x] += dp[i][j] * f[cnt[i + 1]][x] * C(x , y) * C(j , y) * C(prefix + 1 - j , x - y) * (x - y)! * y!
+
+note: we destroy y bad pairs, but creates cnt[i + 1] - x new bad pairs.
+we have C(x , y) ways to select y bad blocks from a total of x blocks.
+we have C(j , y) ways to select y bad positions from a total of j bad positions.
+we have C(prefix + 1 - j , x - y) ways to select x - y positions from a total of prefix + 1 - j good positions.
+we have y! ways to re-arrange y bad blocks (as f[cnt[i]][x] does not consider group-wise ordering).
+we have (x - y)! ways to re-arrange x - y good blocks.
+our answer is just dp[K][0]
+
+complexity is O(#groups * prefix * cnt[i] * cnt[i])
+for i = 1 .. |groups|:
+    for j = 0 .. cnt[1]+..+cnt[i]:
+        for x = 1 .. cnt[i+1]:
+            for y = 1 .. min(j,x):
+note that the third for-loop only runs a total of N times
+we can safely say that the solution is O(N^3)
 
 https://codeforces.com/contest/317/problem/D
-solution: game , SG number , precomputation
+solution: Alice and Bob plays a game, each erase x , x^2 , x^3... x^k <= N
+the one who can not make any move lose. Determine who can win if both play optimally. N is 1e9 , it is impossible to put every 1...N into a set and simulate the game, also, even if N is very small, simulating all possibilities is impossible. But if the set given looks like {x , x^2 , x^3 , x^4 , x^5}
+and if Alice erase x^2 then the set will be {x , x^3 , x^5}. This process can be simulate by bitmask. With this, we try the following construction. 
+Iterate x from 2 to sqrt(N), build set {x , x^2 , x^3 , ... , x^k}. Now, we are going to have sqrt(N) sets, where each set's size is at most 29. when Alice / Bob
+pick some x, this x will only appear in exactly one set from all these sqrt(N) sets. (let y be the minimal y st y | x , x must be from the set starts with y, and this minimal value must be distinct by our construction)
+Now, we have one important observation: we do not care about what values are in each set, we only care about their sizes now.
+Our game has been broken into sqrt(N) independent sub-games. (and many other games whose size is 1)
+Handeling subgames require SG number. we can precompute the SG number for each sizes from 2 ~ 29, using bitmask. At last, our answer is just the XOR sum of all these SG numbers. (Also need to check the number of subgames whose size = 1)
 
 https://codeforces.com/contest/1555/problem/F
 solution: XOR , inference  TODO
