@@ -2,7 +2,7 @@
 # Here I do CP for fun
 # With focus on Codeforces
 
-fasfdasdfsadsadads
-
+# Solutions to some problems that I have solved
+##
 
 
