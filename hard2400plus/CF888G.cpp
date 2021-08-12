@@ -156,4 +156,7 @@ Instead of iterating all edges, for each vertices v, we query the
 vertex u in another component which will result in the minimal xor 
 value min{v xor u} by maintaining a trie
 So , the total time complexity is O(logV * V * 30) since a[i] < 2^30
+
+Sadly , the constant factor is too big, and I don't know how make it AC 
+:(
 */

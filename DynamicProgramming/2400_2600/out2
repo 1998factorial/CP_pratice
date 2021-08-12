@@ -1,0 +1,19 @@
+val[0] = 0
+fail[0] = 0
+val[1] = 0
+fail[1] = 0
+val[2] = 2
+fail[2] = 3
+val[3] = 0
+fail[3] = 0
+val[4] = 0
+fail[4] = 3
+val[5] = 3
+fail[5] = 4
+val[6] = 0
+fail[6] = 0
+val[7] = 0
+fail[7] = 3
+val[8] = 3
+fail[8] = 1
+354668080

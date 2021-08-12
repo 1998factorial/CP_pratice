@@ -12,29 +12,7 @@ const int maxn = 2e5 + 10;
 const int inf32 = 1e9;
 const ll inf64 = 1e18;
 const ll mod = 998244353;
-/*
-    A very hard problem https://codeforces.com/contest/1546/problem/E
-    Given a 2N by N matrix, we need to find the number of 
-    ways to select N rows to make a latin square (幻方)
-    Also given:
-        a. we can make at least one latin square
-        b. each row will "clash" with at least one other row
-        c. No 2 rows are identical
-    Call the N rows that can make latin square "original" rows
-    The other N rows are additional rows.
-    Observations:
-    1. If a row has a number that only appears exactly once in its column in the matrix
-    then this row must be an original row (If not then it contradicts with the given 
-    condition that we can make a latin square)
-    2. All rows with (1) condition need to be selected. (If not, we can not make a latin square)
-    3. If we have x original rows selected, then we are going to eliminate at least x additional rows
-    4. If we are left with no rows that satisfy (1), then all numbers in these rows appear exactly 2 times.
-    Why? Since occurences of each number is greater than 1, so for 0 <= x <= N - 1 , cnt[x] >= 2
-    Say we have selected x rows, then we must have eliminated at least 2x rows
-    so if we have M rows left, M <= 2N - 2x
-    for each number x in [0 , N - 1], on each column, sum{cnt[x]} = M
-    
-*/
+
 ll mul(ll x , ll y){
     return (x * y) % mod;
 }
@@ -47,13 +25,69 @@ int main(){
     while(t--){
         int N;
         cin >> N;
-        vector<vector<int>> a(2 * N , vector<int>(N));
-        for(int i = 0; i < 2 * N; ++i){
-            for(int j = 0; j < N; ++j){
+        vector<vector<int>> a(2 * N + 1 , vector<int>(N + 1));
+        for(int i = 1; i <= 2 * N; ++i){
+            for(int j = 1; j <= N; ++j){
                 cin >> a[i][j];
-                --a[i][j];
             }
         }
-
+        vector<int> latin_square;
+        vector<bool> canuse(2 * N + 1 , true);
+        ll ans = 1;
+        while(latin_square.size() < N){
+            int unique_row = -1;
+            for(int i = 1; i <= N && unique_row == -1; ++i){
+                vector<int> cnt(N + 1 , 0) , candidate(N + 1 , -1);
+                // check if for ith column, if some number appears exactly once
+                for(int j = 1; j <= 2 * N; ++j){
+                    if(!canuse[j])continue;
+                    ++cnt[a[j][i]];
+                    candidate[a[j][i]] = j;
+                }
+                for(int j = 1; j <= N; ++j){
+                    if(cnt[j] == 1){
+                        unique_row = candidate[j];
+                        break;
+                    }
+                }
+            }
+            if(unique_row != -1){
+                latin_square.push_back(unique_row);
+                for(int j = 1; j <= 2 * N; ++j){
+                    if(!canuse[j])continue;
+                    for(int i = 1; i <= N; ++i){
+                        if(a[j][i] == a[unique_row][i])canuse[j] = false;
+                    }
+                }
+            }
+            else{
+                // now for each column , each integer appears exactly twice
+                // and we can choose any one
+                ans = mul(ans , 2ll);
+                int choose = -1;
+                for(int j = 1; j <= 2 * N; ++j){
+                    if(canuse[j]){
+                        choose = j;
+                        break;
+                    }
+                }
+                latin_square.push_back(choose);
+                for(int j = 1; j <= 2 * N; ++j){
+                    if(canuse[j]){
+                        for(int i = 1; i <= N; ++i){
+                            if(a[choose][i] == a[j][i]){
+                                canuse[j] = false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        cout << ans << endl;
+        for(int i : latin_square)cout << i << " ";
+        cout << endl;
     }
 }   
+/*
+    A very hard problem https://codeforces.com/contest/1546/problem/E
+*/
