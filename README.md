@@ -48,12 +48,13 @@ And the rest of x - y blocks will be put in good positions. let sum{cnt[k] , k <
 4. we have y! ways to re-arrange y bad blocks (as f[cnt[i]][x] does not consider group-wise ordering).
 5. we have (x - y)! ways to re-arrange x - y good blocks.
 - our answer is just dp[K][0]
-
+```
 complexity is O(#groups * prefix * cnt[i] * cnt[i])
 for i = 1 .. |groups|:
     for j = 0 .. cnt[1]+..+cnt[i]:
         for x = 1 .. cnt[i+1]:
             for y = 1 .. min(j,x):
+```
 note that the third for-loop only runs a total of N times
 we can safely say that the solution is O(N^3)
 
