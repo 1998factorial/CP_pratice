@@ -50,8 +50,10 @@ Say we divide them into x blocks, in how many ways can we do this? let f[n][k] =
 ```
 f[n][k] = f[n - 1][k - 1] + f[n - 1][k] * (n - 1 + k). (think each element as white balls , group can be black balls, put between white balls as barrier , the number of ways to not create another group while inserting nth element is (n - 1 + k) * f[n - 1][k])
 ```
+```
 Now, we are at dp[i][j] and we divide cnt[i+1] elements into x blocks, with f[cnt[i+1]][x] ways, we then consider how many "original bad pairs" we will destroy. Say y of them. we are puting y blocks from x blocks into these y bad pair positions.
 And the rest of x - y blocks will be put in good positions. let sum{cnt[k] , k <= i} = prefix. we have 
+```
 ```
 dp[i + 1][j - y + cnt[i + 1] - x] += dp[i][j] * f[cnt[i + 1]][x] * C(x , y) * C(j , y) * C(prefix + 1 - j , x - y) * (x - y)! * y!
 ```
