@@ -40,13 +40,13 @@ Say we divide them into x blocks, in how many ways can we do this? let f[n][k] =
 Now, we are at dp[i][j] and we divide cnt[i+1] elements into x blocks, with f[cnt[i+1]][x] ways, we then consider how many "original bad pairs" we will destroy. Say y of them. we are puting y blocks from x blocks into these y bad pair positions.
 And the rest of x - y blocks will be put in good positions. let sum{cnt[k] , k <= i} = prefix. we have dp[i + 1][j - y + cnt[i + 1] - x] += dp[i][j] * f[cnt[i + 1]][x] * C(x , y) * C(j , y) * C(prefix + 1 - j , x - y) * (x - y)! * y!
 
-note: we destroy y bad pairs, but creates cnt[i + 1] - x new bad pairs.
-we have C(x , y) ways to select y bad blocks from a total of x blocks.
-we have C(j , y) ways to select y bad positions from a total of j bad positions.
-we have C(prefix + 1 - j , x - y) ways to select x - y positions from a total of prefix + 1 - j good positions.
-we have y! ways to re-arrange y bad blocks (as f[cnt[i]][x] does not consider group-wise ordering).
-we have (x - y)! ways to re-arrange x - y good blocks.
-our answer is just dp[K][0]
+- note: we destroy y bad pairs, but creates cnt[i + 1] - x new bad pairs.
+1. we have C(x , y) ways to select y bad blocks from a total of x blocks.
+2. we have C(j , y) ways to select y bad positions from a total of j bad positions.
+3. we have C(prefix + 1 - j , x - y) ways to select x - y positions from a total of prefix + 1 - j good positions.
+4. we have y! ways to re-arrange y bad blocks (as f[cnt[i]][x] does not consider group-wise ordering).
+5. we have (x - y)! ways to re-arrange x - y good blocks.
+- our answer is just dp[K][0]
 
 complexity is O(#groups * prefix * cnt[i] * cnt[i])
 for i = 1 .. |groups|:
@@ -79,7 +79,7 @@ solution: dp
 solution: dp 
 
 - https://codeforces.com/contest/1129/problem/C
-solution: Each time, we will append 0 or 1 to the end of our string. Except "0011", "0101", "1110", and "1111", all other length <= 4 0/1 string can be translated to some distinct alphabet. Our goal is to, after each append operation, we need to calculate the number of different sequences of alphabets that we can translate to. One approach is to consider the number
+solution: Each time, we will append 0 or 1 to the end of our string. Except "0011", "0101", "1110", and "1111", all other length <= 4 0/1 string can be translated to some distinct alphabet. Our goal is to, after each append operation, we need to calculate the number of different sequences of alphabets that we can translate to. One approach is to consider the number of different sequences we can make, for each string ending with a[i].
 
 - https://codeforces.com/contest/1555/problem/E
 solution: Not hard to come up with a sweeping solution, but implementation needs to be careful
