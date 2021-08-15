@@ -2,7 +2,6 @@
 # Here I do CP for fun
 # With focus on Codeforces
 # Solutions to some problems that I have solved
-# problem counts = 31
 
 - https://codeforces.com/contest/86/problem/D
 ```
@@ -22,7 +21,44 @@ f[l][r] = f[r][l] = 1/2. This approach allows us to maintain the information for
 [code](https://codeforces.com/contest/258/submission/125593954)
 - https://codeforces.com/contest/86/problem/C
 ```
-solution: dp on AC automaton TODO
+solution: We are given at most 10 patterns, each has length at most 10
+We need to find the number of DNA sequence of length N <= 1000, such that, for each
+1 <= i <= N, exists 1 <= l <= i <= r <= N , such that s[l..r] = some given pattern.
+This means, each character must be included in a matched pattern in the constructed string.
+```
+```
+This implies that while we are building the string, we need keep track of the suffix and prefix at the same time. what is this? This has a smell of KMP (longest proper suffix) However, we have more than one patterns. It might be AC-automaton then! (The idea of AC-automaton is like KMP on trie, we don't have pi function here, we have the "fail" link instead) 
+```
+```
+Now, we can put all patterns into out AC-automaton and count while we traverse on trie. Let dp[i][j] be the number of good strings that we can make, whose length is i and we are currently standing at node j of the AC-automaton
+```
+```
+However, this construction will have problem, that is, while we transit, we want our current suffix of the constructing string to match with at least one pattern, this means we can not move on to other nodes using fail link without specifing "ok, I have done with this particular pattern, now I am moving on". Also, patterns are allowed to overlap.("AC" , "CB" , string "ACB" works.) In another word, dealing with "is this transition valid" is hard with this state.
+```
+```
+The approach that solves this issue is: let dp[i][j][k] be the number of good strings whose length is i , and we are standing at node j , the last k characters in the string that we are constructing is not matched with any pattern yet.
+```
+```
+We just need to store, for each the trie node, the longest pattern that using this node can match to.
+```
+```
+while(!q.empty()){
+    int u = q.front();
+    q.pop();
+    for(int i = 0; i < 4; ++i){
+        if(tr[u][i]){
+            fail[tr[u][i]] = tr[fail[u]][i];
+            q.push(tr[u][i]);
+            val[tr[u][i]] = max(val[tr[u][i]] , val[fail[tr[u][i]]]); // <--- here updates the longest we can reach
+        }
+        else{
+            tr[u][i] = tr[fail[u]][i];
+        }
+    }
+}
+```
+```
+After this, the transition is easy
 ```
 [code](https://codeforces.com/contest/86/submission/125450299)
 - https://codeforces.com/contest/83/problem/D
