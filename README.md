@@ -8,6 +8,7 @@
 ```
 solution: Here we use MO's algorithm. (answer for [l , r] -> [l -+ 1, r -+ 1]can be maintained in O(1))
 ```
+[code](https://codeforces.com/contest/86/submission/125625397)
 - https://codeforces.com/contest/258/problem/D 
 ```
 solution: 
@@ -18,30 +19,35 @@ expected number of inversions could also be counted as : sum { Prob(a[i] > a[j])
 for each query, it is not hard to observe the following transition: f[l][i] = f[r][i] = (f[l][i] + f[r][i]) / 2 , f[i][l] = f[i][r] = (f[i][l] + f[i][r]) / 2
 f[l][r] = f[r][l] = 1/2. This approach allows us to maintain the information for each pair of (a[i] , a[j]).
 ```
+[code](https://codeforces.com/contest/258/submission/125593954)
 - https://codeforces.com/contest/86/problem/C
 ```
 solution: dp on AC automaton TODO
 ```
-
+[code](https://codeforces.com/contest/86/submission/125450299)
 - https://codeforces.com/contest/83/problem/D
 ```
 solution: let us think of a navie solution, let f(n , k) = the number of x <= n whose smallest non-one divisor = k. f(n , k) = n / k - sum{f(n / k , j) | 1 < j < k}. since n and k are 2e9 , this might be too slow. However, one can see that if k is not a prime then f(n , k) = 0. eg f(n , 4) = 0 as 4 | x => 2 | x. 
 if k * k > n then f(n , k) = 1 (only x is k , no other number works). therefore, the amount of k is at most sqrt(n). also, for each recursive step, 
 n shrinks by at least 2, so the height of the recursion tree is at most log(n , 2). The complexity is thus bounded by O(sqrt(n) * log(n , 2)) ~ 1381772
 ```
+[code](https://codeforces.com/contest/83/problem/D)
 - https://codeforces.com/contest/337/problem/E
 ```
 solution: there are only n<=8 nodes, we can brute force all these cases. 
 ```
+[code](https://codeforces.com/contest/337/submission/125267709)
 - https://codeforces.com/contest/1073/problem/E
 ```
 solution: f[i][mask][p][q][t] = the sum of all the prefixes of length i and used mask (set) of digits, p => if prefix is bounded by L , q => if prefix is bounded by R , t => if we have leading zeros. dp[i][mask][p][q][t] = number of ways to have prefix of length i ,(mask , p , q , t same meaning as before). and we can use dp table to update f table.
 ```
+[code](https://codeforces.com/contest/1073/submission/125196173)
 - https://codeforces.com/contest/744/problem/C
 ```
 solution: A very smart way of dp. To buy a card the cost for red token is max(0 , r[i] - R) , for blue token max(0 , b[i] - B). Consider a simplier version, 
 if cost for red = r[i] and cost for blue = b[i], what is the minimal day needed to buy all cards? The answer is max(sum{r[i]} , sum{b[i]}). Also, for those r[i] or b[i] >= N, their cost will always be r[i] - R or b[i] - B. So we mainly focus on those r[i] , b[i] < N. Now, we can dp. let dp[mask][i] be the maximal amount of blue token that we can save when we have bought mask (set) of cards, and saved i red tokens in total. (note that i < N^2)
 ```
+[code](https://codeforces.com/contest/744/submission/125157617)
 - https://codeforces.com/contest/840/problem/C
 ```
 we want to re-arrange the array, so that no adjcent pair a[i] * a[i + 1] is a perfect square. if a * b and b * c is perfect square, then a * c is also a perfect square. eg, 2 * 8 and 8 * 18. why? if a * b is perfect square, then for each p^x | a, and p^y | b, (x + y) % 2 = 0. so x and y have same parity. this relation is transitive, so for each p^x | a , p^y | b , p^z | c , (x + y) = (y + z) = (x + z) % 2. We can therefore group all pairwise perfect square. (Same as give them colour)
@@ -78,7 +84,7 @@ for i = 1 .. |groups|:
 note that the third for-loop only runs a total of N times
 we can safely say that the solution is O(N^3)
 ```
-
+[code](https://codeforces.com/contest/840/submission/125066900)
 - https://codeforces.com/contest/317/problem/D
 ```
 solution: Alice and Bob plays a game, each erase x , x^2 , x^3... x^k <= N
@@ -90,6 +96,7 @@ Now, we have one important observation: we do not care about what values are in 
 Our game has been broken into sqrt(N) independent sub-games. (and many other games whose size is 1)
 Handeling subgames require SG number. we can precompute the SG number for each sizes from 2 ~ 29, using bitmask. At last, our answer is just the XOR sum of all these SG numbers. (Also need to check the number of subgames whose size = 1)
 ```
+[code](https://codeforces.com/contest/317/submission/124941147)
 - https://codeforces.com/contest/1555/problem/F
 ```
 solution: There are a set of edges to add in, each with weight 0 or 1. We can add edge only when all simple cycles have weight 1 (weight is calculated by xor)
@@ -97,15 +104,16 @@ For each edge, if we add it, we say YES and add it into the graph, else, we say 
 For cycle edge, (u , v) we need to check if edges from u to v are included in any cycle before.(this can be done using Euler tour + fenwick tree) Then we need to have fast query for xor values from u to v, this can be done simply by tree dp.
 ```
 The hard part is the implementation: [code](https://codeforces.com/contest/1555/submission/124841091)
-
 - https://codeforces.com/contest/313/problem/D
 ```
 solution: dp 
 ```
+[code](https://codeforces.com/contest/313/problem/D)
 - https://codeforces.com/contest/427/problem/D
 ```
 solution: dp 
 ```
+[code](https://codeforces.com/contest/427/submission/124731420)
 - https://codeforces.com/contest/1129/problem/C
 ```
 solution: Each time, we will append 0 or 1 to the end of our string. Except "0011", "0101", "1110", and "1111", all other length <= 4 0/1 string can be translated to some distinct alphabet. Our goal is to, after each append operation, we need to calculate the number of different sequences of alphabets that we can translate to. One approach is to consider the number of different sequences we can make, for each string ending with a[i]. 
@@ -126,6 +134,7 @@ LCS[i][j] = LCS[i - 1][j - 1] + 1 if a[i] == a[j].
 ```
 solution: Not hard to come up with a sweeping solution, but implementation needs to be careful
 ```
+[code](https://codeforces.com/contest/1555/submission/124386624)
 - https://codeforces.com/contest/623/problem/B
 solution: smart dp 
 
