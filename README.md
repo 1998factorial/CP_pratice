@@ -348,24 +348,31 @@ base case: f[i][i] = 1 , g[i][i] = 1
 ```
 [code](https://codeforces.com/contest/888/submission/123409300)
 - https://codeforces.com/contest/888/problem/G
+```
 solution: TODO
-
+```
 - https://codeforces.com/contest/1495/problem/D
+```
 solution: counting , observation TODO
-
+```
 - https://codeforces.com/contest/1550/problem/D
+```
 solution: hard counting TODO
-
+```
 - https://codeforces.com/contest/1550/problem/F
+```
 solution: Borůvka's algorithm TODO
-
+```
 - https://codeforces.com/contest/1550/problem/E
+```
 solution: greedy observation + bit mask dp TODO
-
+```
 - https://codeforces.com/contest/1543/problem/E
+```
 solution: hard constructive  TODO
-
+```
 - https://codeforces.com/contest/1546/problem/D
+```
 solution: counting TODO
-
+```
 
