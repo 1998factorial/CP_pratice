@@ -68,10 +68,11 @@ After this, the transition is easy
                 for(int x = 0; x < 4; ++x){
                     int nj = tr[j][x];
                     if(val[nj] >= 1 + k){
-                        dp[i + 1][nj][0] = add(dp[i + 1][nj][0] , dp[i][j][k]);
+                        dp[i + 1][nj][0] = add(dp[i + 1][nj][0] , dp[i][j][k]); // we can mark finish the matching for the last part
                     }
                     else{
                         dp[i + 1][nj][k + 1] = add(dp[i + 1][nj][k + 1] , dp[i][j][k]);
+                        // we can not finish it now, we seek to find for next
                     }
                 }
             }
@@ -190,29 +191,57 @@ solution: Not hard to come up with a sweeping solution, but implementation needs
 ```
 [code](https://codeforces.com/contest/1555/submission/124386624)
 - https://codeforces.com/contest/623/problem/B
-solution: smart dp 
-
+```
+solution: we can erase at most one consecutive segment (has to be shorter than the whole array) and pay A for each unit.
+We can +1 or -1 for each a[i], and need to pay B for each.
+We need to find the min cost to make the whole array's gcd > 1 
+```
+```
+Here we can make an observation: at least one of a[1] and a[N] will not be erased
+This inspires us to iterate on {a[1] + 1 , a[1] , a[1] - 1 , a[N] + 1 , a[N] , a[N] - 1} , 6 in total. For the first 3 values, fix to be the value of a[1] and factorize it, for each prime divisor, check the minimal cost to make the whole array divisible by this prime. this can be done with a simple linear dp.
+And similarly, for the last 3 values.
+```
+[code](https://codeforces.com/contest/623/submission/124211872)
 - https://codeforces.com/contest/587/problem/B
 solution: dp + careful case work
-
+```
+Nothing really special about this problem, just standard dp
+```
+[code](https://codeforces.com/contest/587/submission/124050121)
 - https://codeforces.com/contest/431/problem/D
-solution: digit dp
-
+```
+solution: standard digit dp
+```
+[code](https://codeforces.com/contest/431/submission/123989803)
 - https://codeforces.com/contest/1546/problem/E
+```
 solution: extremely hard constructive problem
-
+The goal is to find the number of ways to make NxN latin square
+(TODO)
+```
+[code](https://codeforces.com/contest/1546/submission/123890305)
 - https://codeforces.com/contest/628/problem/D
+```
 solution: digit dp
-
+```
+[code](https://codeforces.com/contest/628/submission/123791463)
 - https://codeforces.com/contest/1188/problem/B
+```
 solution: make the formula: (ai - aj)(ai + aj)(ai^2 + aj^2) = k(ai - aj) (mod P), then easy
-
+```
+[code](https://codeforces.com/contest/1188/submission/123757746)
 - https://codeforces.com/contest/1188/problem/D
-solution: hard dp , TODO
-
+```
+solution: very hard dp , (TODO)
+```
+[code](https://codeforces.com/contest/1188/submission/123750641)
 - https://codeforces.com/contest/1188/problem/C
-solution: counting + dp TODO
+```
+value of array <a1..aN> = min{|ai - aj|} , i != j
+Interesting dp problem. The idea is to relax the condition
 
+```
+[code](https://codeforces.com/contest/1188/submission/123579959)
 - https://codeforces.com/contest/888/problem/F
 solution: counting + dp TODO
 
