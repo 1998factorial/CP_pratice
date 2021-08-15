@@ -314,14 +314,27 @@ solution: very hard dp , (TODO)
 [code](https://codeforces.com/contest/1188/submission/123750641)
 - https://codeforces.com/contest/1188/problem/C
 ```
-value of array <a1..aN> = min{|ai - aj|} , i != j
+value of array <a1..aN> = min{|ai - aj|} , i != j. 
+We need to calculate the value of all subsequences of array a with length = K
 Interesting dp problem. The idea is to relax the condition
-
+the answer = 1 * #(value = 1) + 2 * #(value = 2) + ...
+but to find the number of subsequences whose value = k is not easy
+We can rewrite answer = #(value >= 1) + #(value >= 2) + ...
+In a relax manner.
+Then the problem can be solved by dp.
+sort a into ascending order
+Let dp[i][j] = the number of sequences ending at a[i] , length = j and value >= x.
+dp[i][j] = sum{dp[k][j - 1] | a[i] - a[k] >= x}
+This can be optimized to O(N * K) by using prefix-sum + 2-pointer
+We also notice that the upperbound of the value is max{a[i]} / (K - 1)
+total complexity is O(max{a[i]} / (K - 1) * N * K) = O(10^5 * N) ~ 1e8
 ```
 [code](https://codeforces.com/contest/1188/submission/123579959)
 - https://codeforces.com/contest/888/problem/F
+```
 solution: counting + dp TODO
-
+```
+[code](https://codeforces.com/contest/888/submission/123409300)
 - https://codeforces.com/contest/888/problem/G
 solution: TODO
 
