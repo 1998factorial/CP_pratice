@@ -60,6 +60,24 @@ while(!q.empty()){
 ```
 After this, the transition is easy
 ```
+```
+    for(int i = 0; i < N; ++i){
+        for(int j = 0; j <= tot; ++j){
+            for(int k = 0; k < 10; ++k){
+                if(dp[i][j][k] == 0)continue;
+                for(int x = 0; x < 4; ++x){
+                    int nj = tr[j][x];
+                    if(val[nj] >= 1 + k){
+                        dp[i + 1][nj][0] = add(dp[i + 1][nj][0] , dp[i][j][k]);
+                    }
+                    else{
+                        dp[i + 1][nj][k + 1] = add(dp[i + 1][nj][k + 1] , dp[i][j][k]);
+                    }
+                }
+            }
+        }
+    }
+```
 [code](https://codeforces.com/contest/86/submission/125450299)
 - https://codeforces.com/contest/83/problem/D
 ```
