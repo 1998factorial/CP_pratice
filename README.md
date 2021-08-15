@@ -37,10 +37,15 @@ if cost for red = r[i] and cost for blue = b[i], what is the minimal day needed 
 - https://codeforces.com/contest/840/problem/C
 we want to re-arrange the array, so that no adjcent pair a[i] * a[i + 1] is a perfect square. if a * b and b * c is perfect square, then a * c is also a perfect square. eg, 2 * 8 and 8 * 18. why? if a * b is perfect square, then for each p^x | a, and p^y | b, (x + y) % 2 = 0. so x and y have same parity. this relation is transitive, so for each p^x | a , p^y | b , p^z | c , (x + y) = (y + z) = (x + z) % 2. We can therefore group all pairwise perfect square. (Same as give them colour)
 Now, our problem is the same as: given K different groups of elements, each have cnt[i] elements, we want to find the number of ways to arrange these elements into a row, such that no adjcent elements are from the same group. Let's try to solve this, group by group. Let dp[i][j] = the number of ways to arrange elements from first i groups, such that we have exactly j bad pairs (bad pair means adjcent pair are from same group) Consider the i+1 th group. First, we need to consider how many consecutive blocks that we are going to divide these cnt[i+1] elements into.
-Say we divide them into x blocks, in how many ways can we do this? let f[n][k] = the number of ways to divide n elements into k non-empty groups, group-wise order doesn't matter, but element wise ordering matters. f[n][k] = f[n - 1][k - 1] + f[n - 1][k] * (n - 1 + k). (think each element as white balls , group can be black balls, put between white balls as barrier , the number of ways to not create another group while inserting nth element is (n - 1 + k) * f[n - 1][k])
+Say we divide them into x blocks, in how many ways can we do this? let f[n][k] = the number of ways to divide n elements into k non-empty groups, group-wise order doesn't matter, but element wise ordering matters. 
+```
+f[n][k] = f[n - 1][k - 1] + f[n - 1][k] * (n - 1 + k). (think each element as white balls , group can be black balls, put between white balls as barrier , the number of ways to not create another group while inserting nth element is (n - 1 + k) * f[n - 1][k])
+```
 Now, we are at dp[i][j] and we divide cnt[i+1] elements into x blocks, with f[cnt[i+1]][x] ways, we then consider how many "original bad pairs" we will destroy. Say y of them. we are puting y blocks from x blocks into these y bad pair positions.
-And the rest of x - y blocks will be put in good positions. let sum{cnt[k] , k <= i} = prefix. we have dp[i + 1][j - y + cnt[i + 1] - x] += dp[i][j] * f[cnt[i + 1]][x] * C(x , y) * C(j , y) * C(prefix + 1 - j , x - y) * (x - y)! * y!
-
+And the rest of x - y blocks will be put in good positions. let sum{cnt[k] , k <= i} = prefix. we have 
+```
+dp[i + 1][j - y + cnt[i + 1] - x] += dp[i][j] * f[cnt[i + 1]][x] * C(x , y) * C(j , y) * C(prefix + 1 - j , x - y) * (x - y)! * y!
+```
 - note: we destroy y bad pairs, but creates cnt[i + 1] - x new bad pairs.
 1. we have C(x , y) ways to select y bad blocks from a total of x blocks.
 2. we have C(j , y) ways to select y bad positions from a total of j bad positions.
