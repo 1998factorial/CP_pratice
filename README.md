@@ -95,8 +95,8 @@ Handeling subgames require SG number. we can precompute the SG number for each s
 solution: There are a set of edges to add in, each with weight 0 or 1. We can add edge only when all simple cycles have weight 1 (weight is calculated by xor)
 For each edge, if we add it, we say YES and add it into the graph, else, we say NO and don't add it. We can see that, no edge can be used in 2 different cycles. (Draw it and it is obvious) So we can first label edges as "cycle edge" or "tree edge". For each Tree edge, when we process them, we just add them and say YES.
 For cycle edge, (u , v) we need to check if edges from u to v are included in any cycle before.(this can be done using Euler tour + fenwick tree) Then we need to have fast query for xor values from u to v, this can be done simply by tree dp.
-The hard part is the implementation: [code](https://codeforces.com/contest/1555/submission/124841091)
 ```
+The hard part is the implementation: [code](https://codeforces.com/contest/1555/submission/124841091)
 
 - https://codeforces.com/contest/313/problem/D
 ```
