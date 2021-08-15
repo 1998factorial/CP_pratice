@@ -4,10 +4,10 @@
 
 # Solutions to some problems that I have solved
 
-https://codeforces.com/contest/86/problem/D
+- https://codeforces.com/contest/86/problem/D
 solution: Here we use MO's algorithm. (answer for [l , r] -> [l -+ 1, r -+ 1]can be maintained in O(1))
 
-https://codeforces.com/contest/258/problem/D
+- https://codeforces.com/contest/258/problem/D
 solution: we need to process each query in order (order matters in this problem). Each query has 1/2 chance of run or not run. And we need to count the
 expected number of inversion pairs after these M queries. There are many ways to calculate the expected number of inversions. eg, sum{e[i]} , where e[i] = expected
 number of a[j] > a[i] where j < i. This approach could not work, as if we swap a[l] and a[r] many times, it is hard to maintain each e[i]. 
@@ -15,15 +15,15 @@ expected number of inversions could also be counted as : sum { Prob(a[i] > a[j])
 for each query, it is not hard to observe the following transition: f[l][i] = f[r][i] = (f[l][i] + f[r][i]) / 2 , f[i][l] = f[i][r] = (f[i][l] + f[i][r]) / 2
 f[l][r] = f[r][l] = 1/2. This approach allows us to maintain the information for each pair of (a[i] , a[j]).
 
-https://codeforces.com/contest/86/problem/C
+- https://codeforces.com/contest/86/problem/C
 solution: dp on AC automaton TODO
 
-https://codeforces.com/contest/83/problem/D
+- https://codeforces.com/contest/83/problem/D
 solution: let us think of a navie solution, let f(n , k) = the number of x <= n whose smallest non-one divisor = k. f(n , k) = n / k - sum{f(n / k , j) | 1 < j < k}. since n and k are 2e9 , this might be too slow. However, one can see that if k is not a prime then f(n , k) = 0. eg f(n , 4) = 0 as 4 | x => 2 | x. 
 if k * k > n then f(n , k) = 1 (only x is k , no other number works). therefore, the amount of k is at most sqrt(n). also, for each recursive step, 
 n shrinks by at least 2, so the height of the recursion tree is at most log(n , 2). The complexity is thus bounded by O(sqrt(n) * log(n , 2)) ~ 1381772
 
-https://codeforces.com/contest/337/problem/E
+- https://codeforces.com/contest/337/problem/E
 solution: there are only n<=8 nodes, we can brute force all these cases. 
 
 - https://codeforces.com/contest/1073/problem/E
