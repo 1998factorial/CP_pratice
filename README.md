@@ -1,4 +1,4 @@
-### CP_pratice
+# CP_pratice
 ## Solutions on codeforces
 
 - https://codeforces.com/contest/86/problem/D
