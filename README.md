@@ -8,6 +8,7 @@
 solution: Here we use MO's algorithm. (answer for [l , r] -> [l -+ 1, r -+ 1]can be maintained in O(1))
 
 - https://codeforces.com/contest/258/problem/D 
+```
 solution: 
 we need to process each query in order (order matters in this problem). Each query has 1/2 chance of run or not run. And we need to count the
 expected number of inversion pairs after these M queries. There are many ways to calculate the expected number of inversions. eg, sum{e[i]} , where e[i] = expected
@@ -15,7 +16,7 @@ number of a[j] > a[i] where j < i. This approach could not work, as if we swap a
 expected number of inversions could also be counted as : sum { Prob(a[i] > a[j]) * [i < j]}, and we use a new state: f[i][j] = Prob(a[i] > a[j])
 for each query, it is not hard to observe the following transition: f[l][i] = f[r][i] = (f[l][i] + f[r][i]) / 2 , f[i][l] = f[i][r] = (f[i][l] + f[i][r]) / 2
 f[l][r] = f[r][l] = 1/2. This approach allows us to maintain the information for each pair of (a[i] , a[j]).
-
+```
 - https://codeforces.com/contest/86/problem/C
 solution: dp on AC automaton TODO
 
