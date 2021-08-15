@@ -1,12 +1,13 @@
 # CP_pratice
 # Here I do CP for fun
 # With focus on Codeforces
-
 # Solutions to some problems that I have solved
+# problem counts = 31
 
 - https://codeforces.com/contest/86/problem/D
+```
 solution: Here we use MO's algorithm. (answer for [l , r] -> [l -+ 1, r -+ 1]can be maintained in O(1))
-
+```
 - https://codeforces.com/contest/258/problem/D 
 ```
 solution: 
