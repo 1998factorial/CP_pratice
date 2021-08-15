@@ -332,7 +332,21 @@ total complexity is O(max{a[i]} / (K - 1) * N * K) = O(10^5 * N) ~ 1e8
 [code](https://codeforces.com/contest/1188/submission/123579959)
 - https://codeforces.com/contest/888/problem/F
 ```
-solution: counting + dp TODO
+solution: there are N points on a circular table, 
+the goal is to find the number of different ways to
+make them all connected. Constraints are: direct links do
+not intersect, you can connect i and j only if a[i][j] = 1.
+```
+```
+Consider what happen with pt[1]. Say we link 1 with some pt[i]
+[1...i , i+1...N] Let f[l][r] be the total number of ways to connect
+all pts from l to r. Let g[l][r] be the total number of ways to connect all
+pts from l to r if l and r are linked directly.
+we get the following recurences:
+f[l][r] = sum{g[l][m] * f[m][r] | l < m <= r , a[l][m] == 1}
+g[l][r] = sum{f[l][m] * f[m + 1][r] | l <= m < r}
+answer is f[1][N]
+base case: f[i][i] = 1 , g[i][i] = 1
 ```
 [code](https://codeforces.com/contest/888/submission/123409300)
 - https://codeforces.com/contest/888/problem/G
