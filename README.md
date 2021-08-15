@@ -108,8 +108,20 @@ solution: dp
 ```
 - https://codeforces.com/contest/1129/problem/C
 ```
-solution: Each time, we will append 0 or 1 to the end of our string. Except "0011", "0101", "1110", and "1111", all other length <= 4 0/1 string can be translated to some distinct alphabet. Our goal is to, after each append operation, we need to calculate the number of different sequences of alphabets that we can translate to. One approach is to consider the number of different sequences we can make, for each string ending with a[i].
+solution: Each time, we will append 0 or 1 to the end of our string. Except "0011", "0101", "1110", and "1111", all other length <= 4 0/1 string can be translated to some distinct alphabet. Our goal is to, after each append operation, we need to calculate the number of different sequences of alphabets that we can translate to. One approach is to consider the number of different sequences we can make, for each string ending with a[i]. 
 ```
+```
+Let dp[l][r] be the number of different sequences that a[l..r] can translate to.
+this dp can be implemented in a very standard way. Now, after each append, we need to update our total sum. We will see another problem. For example, "10101", we see that the string "101" has appeared before, so we want to avoid counting "101" into our sum again.
+```
+```
+This basically means: if a[l..i] has appeared before then we will stop consider a[l..i] , a[l+1..i] , ... , a[i..i]. So, we need a way to detect the maximal l we can get to for each i. This can be done by another dp. 
+```
+```
+Let LCS[i][j] = the longest common suffix for a[1..i] and a[1..j]
+LCS[i][j] = LCS[i - 1][j - 1] + 1 if a[i] == a[j]. 
+```
+[code](https://codeforces.com/contest/1129/submission/124406253)
 - https://codeforces.com/contest/1555/problem/E
 ```
 solution: Not hard to come up with a sweeping solution, but implementation needs to be careful
