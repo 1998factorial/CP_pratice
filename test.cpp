@@ -12,39 +12,46 @@ const int maxv = 1e6 + 10;
 const int maxn = 2e5 + 10;
 const int inf32 = 1e9 + 10;
 const ll inf64 = 1e18 + 10;
-const int mod = 1e9 + 7;
-int add(int x , int y){
-    ll ans = x;
-    ans += y;
-    while(ans >= mod)ans -= mod;
-    return ans;
-}
-int mul(int x , int y){
-    ll ans = x;
-    ans *= y;
-    return ans % mod;
-}
-int N , a[505][505] , f[505][505] , g[505][505];
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
+    int N;
     cin >> N;
-    for(int i = 1; i <= N; ++i)
-        for(int j = 1; j <= N; ++j)cin >> a[i][j];
-    for(int i = 1; i <= N; ++i)f[i][i] = g[i][i] = 1;
-    for(int len = 2; len <= N; ++len){
-        for(int i = 1; i + len - 1 <= N; ++i){
-            int j = i + len - 1;
-            if(a[i][j])
-                for(int k = i; k < j; ++k){
-                    g[i][j] = add(g[i][j] , mul(f[i][k] , f[k + 1][j]));
-                }
-            for(int k = i + 1; k <= j; ++k){
-                if(a[i][k])
-                    f[i][j] = add(f[i][j] , mul(g[i][k] , f[k][j]));
+    vector<ll> a(N + 1) , b(N + 1) , id(N);
+    for(int i = 1; i <= N; ++i)cin >> a[i];
+    sort(a.begin() + 1 , a.end());
+    for(int i = 1; i <= N; ++i){
+        b[i] = a[N] - a[i]; 
+        id[i] = i + 1;
+    }    
+    vector<vector<ll>> dp(65 , vector<ll>(N + 1 , inf64));
+    // for 0th bit
+    for(int k = 0; k < 2; ++k){
+        dp[0][k] = 0;
+        for(int j = 1; j <= N; ++j){
+            int v = (b[j] & (1 << 0)) ? 1 : 0;
+            dp[0][k] += (k + (b[j])) % 2;
+        }
+    }
+    for(int i = 1; i < 65; ++i){
+        ll mod = 1LL << i;
+        sort(id.begin() , id.end() , [&](int& l , int& r){
+            return (b[l] % mod) < (b[r] % mod);
+        });
+        vector<int> sum(N + 1);
+        for(int j : id){
+            int v = (b[j] & (1 << i)) ? 1 : 0;
+            sum[j] += v;
+        }
+        for(int j = 1; j <= N; ++j)sum[j] += sum[j - 1];
+        // we now enumerate the number of carries we have
+        for(int nc = 0; nc <= N; ++nc){
+            // enumerate the ith bit of t
+            for(int k = 0; k < 2; ++k){
+
             }
         }
     }
-    cout << f[1][N] << endl;
+    cout << min(dp[64][0] , dp[64][1]) << endl;
 }   

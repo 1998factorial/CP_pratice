@@ -307,7 +307,58 @@ solution: make the formula: (ai - aj)(ai + aj)(ai^2 + aj^2) = k(ai - aj) (mod P)
 [code](https://codeforces.com/contest/1188/submission/123757746)
 - https://codeforces.com/contest/1188/problem/D
 ```
-solution: very hard dp , (TODO)
+Problem:
+We are given a sequence of numbers, each time we can choose to add
+some non-negative power of 2 to some number. The goal is to use the 
+minimal number of operations to make all numbers equal.
+```
+```
+First observation, since we can add only, if at the end, a[1]=...=a[N]=x
+then x >= max{a[i]}. If we fix this x, the answer is just sum{Bit[x - a[i]]}
+where Bit[x] is the number of 1s in the binary form of x.
+Since the possible values of x can be large, we can not just iterate x. 
+```
+```
+We can not binary search on x, as if x works, x + 1 might not make the answer smaller. (At least my intuition)
+Instead, we can try to enumerate the possible values of x on each bit.
+However, the minus is annoying to deal with, we try to turn it into a plus.
+```
+```
+Assuming a[1]<=..<=a[N]
+Notice Let t = (x - a[N]) , then x - a[i] = t + a[N] - a[i]
+Let b[i] = a[N] - a[i]
+we have x - a[i] = t + b[i] , the goal is to min{sum{t + b[i]}}
+Now, we can enumerate bis on t
+```
+```
+Consider the ith bit of t, assuming we have the answer for the first i-1 bits.
+Let dp[i][0/1] = min{sum{t[i..0] + b[j][i..0] | j <= N}}, such that 
+t[i] = 0/1. Consider the cases when we move from dp[i] to dp[i + 1]
+dp[i + 1][0] = min{
+    dp[i][0] + sum((b[j][i + 1] + carry[j][i][0]) % 2) , 
+    dp[i][1] + sum((b[j][i + 1] + carry[j][i][1]) % 2)
+} 
+where carry[j][i][0] = the carry of b[j] on ith bit, if we reach dp[i][0]. 
+carry[j][i][1] = the carry of b[j] on ith bit, if we reach dp[i][1]. 
+the possible of states of carries can reach 2^N, which is 2^(1e5).
+```
+```
+Optimization:
+Carry is important, there is no way to get rid of it. 
+Carry on each b[j] can vary and there is no way to get rid of it.
+So the only way is to shrink the 2^N states into something managable.
+We notice that, if (b[j][i..0] + t[i..0]) >= (b[k][i..0] + t[i..0]) 
+and the carry on b[k] is 1, then b[j]'s carry must also be 1.
+As the condition to have carry is (b[k][i..0] + t[i..0]) >= 2^(i+1)
+so if sort b[j][i..0] (same as sort by b[j] mod (2^(i + 1)))
+into ascending order then we can just enumerate on the number of carries 
+we have from previous bits, and this is linear.
+```
+```
+So we can define our dp state:
+dp[i][j] = the minimal number of operations to make for the first
+i bits, such that we have j carries.
+We can transit this with some case works + prefix sums.
 ```
 [code](https://codeforces.com/contest/1188/submission/123750641)
 - https://codeforces.com/contest/1188/problem/C
