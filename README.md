@@ -400,11 +400,28 @@ base case: f[i][i] = 1 , g[i][i] = 1
 [code](https://codeforces.com/contest/888/submission/123409300)
 - https://codeforces.com/contest/888/problem/G
 ```
-solution: TODO
+You are given an undirected graph with n vertices, each vertice has a value a[i],
+weight of edge (i , j) is a[i] xor a[j]. We need to find the MST.
+n <= 2e5 , a[i] < 2^30
 ```
+```
+One way to solve this is to use Boruvka algorithm
+Kruskal algorithm's complexity is O(ElogE) = O(N^2 * log(N^2)) too slow
+Boruvka algorithm's complexity is O(ElogV), for each logV iteration,
+we can speed up the process. Instead iterating all edges, for each vertex u in 
+a component, we find the vertex v in other components, such that a[u] xor a[v] is minimised. This can be done with a trie, thus making the process at most 30 for each vertex. Time complexity is O(30*V*logV) However the constant is large, so my implementation failed to pass the tests.
+```
+[code](https://codeforces.com/contest/888/submission/123232074)
+```
+Another way is to use divide and conquer. We start from the the highest bit and we group vertices by weather they have this bit in their values.
+And then we recursively solve for these 2 groups.
+At the end, we use link these 2 groups by the cheapest edge.
+The whole process can be done with trie.
+```
+[code](https://codeforces.com/contest/888/submission/123235034)
 - https://codeforces.com/contest/1495/problem/D
 ```
-solution: counting , observation TODO
+
 ```
 - https://codeforces.com/contest/1550/problem/D
 ```

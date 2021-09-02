@@ -1,66 +1,76 @@
-#include<bits/stdc++.h>
+#pragma GCC optimize(3)
+#pragma GCC optimize(2)
+#include <bits/stdc++.h>
+#define x first
+#define y second
 using namespace std;
-const int maxn = 1005;
-const int mod = 1e9 + 9;
-char ss[11];
-int n, m, tot, ans;
-int mean[maxn], f[maxn][maxn][11];
-int c[maxn][5], fail[maxn], cnt[maxn];
-inline void insert() {
-    int p = 0;
-    int len = strlen(ss);
-    for (int i = 0; i < len; ++ i) {
-        int idx = mean[(int)ss[i]];
-        if (!c[p][idx]) c[p][idx] = ++ tot;
-        p = c[p][idx];
-    }
-    cnt[p] = len;
+typedef long long ll;
+typedef pair<ll , ll> pll;
+typedef pair<int , int> pii;
+typedef long double ld;
+const int maxv = 1e6 + 10;
+const int maxn = 2e5 + 10;
+const int inf32 = 1e9 + 10;
+const ll inf64 = 1e18 + 10;
+const int mod = 1e9 + 7;
+ll gcd(ll x , ll y){
+    return x == 0 ? y : gcd(y % x , x);
 }
-queue<int> q;
-inline void bfs() {
-    for (int i = 0; i < 4; ++ i)
-        if (c[0][i]) q.push(c[0][i]);
-    while (!q.empty()) {
-        int u = q.front(); q.pop();
-        for (int i = 0; i < 4; ++ i) {
-            int v = c[u][i];
-            if (!v) {c[u][i] = c[fail[u]][i]; continue;}
-            fail[v] = c[fail[u]][i];
-            cnt[v] = max(cnt[v], cnt[fail[v]]);
-            q.push(v);
+ll table[25][maxn];
+ll logs[maxn];
+ll query(int l, int r) {
+    if(l > r)return 1;
+    int len = r - l + 1;
+    int pos = r - (1 << logs[len]) + 1;
+    return gcd(table[logs[len]][l] , table[logs[len]][pos]);
+}
+int main(){
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    for(int i = 2; i < maxn; ++i){
+        logs[i] = logs[i / 2] + 1;
+    }
+    int t;
+    cin >> t;
+    while(t--){
+        int N;
+        cin >> N;
+        vector<ll> a(N) , diff;
+        for(int i = 0; i < N; ++i)cin >> a[i];
+        for(int i = 0; i + 1 < N; ++i)diff.push_back(abs(a[i + 1] - a[i]));
+        for(int i = 0; i < N - 1; ++i){
+            table[0][i] = diff[i];
         }
+        for(int i = 1; i <= logs[N - 1]; ++i){
+            int prel = (1 << (i - 1));
+            for(int j = 0; j < N - 1; ++j){
+                if(j + prel < N - 1){
+                    table[i][j] = gcd(table[i - 1][j] , table[i - 1][j + prel]);
+                }
+                else{
+                    table[i][j] = table[i - 1][j];
+                }
+            }
+        }
+        int ans = 1 , l = 1 , r = N - 1;
+        while(l <= r){
+            int mid = (l + r) / 2;
+            int ok = 0;
+            for(int i = 0; i < N - 1; ++i){
+                if(i + mid - 1 < N - 1 && query(i , i + mid - 1) > 1){
+                    ok = 1;
+                    break;
+                }
+            }
+            if(ok){
+                ans = mid + 1;
+                l = mid + 1;
+            }
+            else{
+                r = mid - 1;
+            }
+        }
+        cout << ans << endl;
     }
-    for(int i = 0; i <= tot; ++i){
-        printf("val[%d] = %d\n" , i , cnt[i]);
-        printf("fail[%d] = %d\n" , i , fail[i]);
-    }
-}
-inline void add(int &a, int b) {
-    a += b;
-    a = (a >= mod) ? a - mod : a;
-}
-inline void dp() {
-    f[0][0][0] = 1;
-    for (int i = 0; i < n; ++ i)
-        for (int j = 0; j <= tot; ++ j)
-            for (int k = 0; k < 10; ++ k)
-                if (f[i][j][k]) 
-                    for (int p = 0; p < 4; ++ p) {
-                        int son = c[j][p];
-                        if (cnt[son] >= k + 1) add(f[i + 1][son][0], f[i][j][k]);
-                        else add(f[i + 1][son][k + 1], f[i][j][k]);
-                    }
-    for (int i = 0; i <= tot; ++ i)
-        add(ans, f[n][i][0]);
-}
-int main() {
-    mean['A'] = 0, mean['G'] = 1, mean['C'] = 2, mean['T'] = 3;
-    scanf("%d%d", &n, &m);
-    for (int i = 0; i < m; ++ i) {
-        scanf("%s", ss);
-        insert();
-    }
-    bfs(), dp();
-    printf("%d\n", ans); 
-    return 0;
-}
+} 
