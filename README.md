@@ -1,5 +1,55 @@
 # CP_pratice
 ## Solutions on codeforces
+- https://codeforces.com/contest/1557/problem/E
+```
+A hard but interesting interactive problem
+```
+[code](https://codeforces.com/contest/1557/submission/127256860)
+- https://codeforces.com/contest/1549/problem/E
+```
+It is obvious that the answer is just 
+sum{C(3 * i , x) | 0 <= i <= N}
+The goal is to calculate it more efficiently 
+```
+```
+There are 2 ways to solve this problem
+```
+```
+solution 1: consider generating function:
+f(x) = (1 + x)^3 + (1 + x)^6 + ... + (1 + x)^3N
+the answer is just the xth cofficient of f(x)
+```
+```
+solution 2:
+let dp[x][0] = sum{C(3i , x) , i <= N - 1}
+let dp[x][1] = sum{C(3i + 1 , x) , i <= N - 1}
+let dp[x][2] = sum{C(3i + 2 , x) , i <= N - 1}
+answer for x is dp[x][0] + C(3N , x) 
+since sum{C(i , j) , i <= n} = C(n + 1 , j + 1)
+dp[x][0] + dp[x][1] + dp[x][2] = C(3N , x + 1)
+since C(n , k) = C(n - 1 , k) + C(n - 1 , k - 1)
+dp[x][1] = dp[x][0] + dp[x - 1][0]
+dp[x][2] = dp[x][1] + dp[x - 1][1]
+dp[x][0] = (C(3N , x + 1) - 2 * dp[x - 1][0] - dp[x - 1][1]) / 3
+```
+
+[code](https://codeforces.com/contest/1549/submission/126835025)
+
+- https://codeforces.com/contest/1557/problem/D
+```
+solution: minimse the number of rows to be removed is the same as
+maximise the number of rows kept.
+```
+```
+we can treat each interval as event, and sweep on them
+when we process an interval, link it with the smallest interval 
+whose id is strictly greater. Link the largest interval whose 
+id is strictly less to us. 
+```
+```
+we will have a acyclic graph. we can then dp
+```
+[code](https://codeforces.com/contest/1557/submission/127313817)
 
 - https://codeforces.com/contest/86/problem/D
 ```
