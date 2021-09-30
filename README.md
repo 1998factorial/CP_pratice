@@ -1,8 +1,109 @@
 # CP_pratice
 ## Solutions on codeforces
+- https://codeforces.com/contest/567/problem/F
+```
+2 requirement about permutation
+
+1. first go up then go down. (or simply just go up or just go down)
+2. follow the inequalities
+```
+```
+Ignoring the second constraint, how do we arrange?
+```
+```
+...N,N...
+then we consider N-1
+we can have ..N-1,N,N,N-1..
+or
+..N-1,N-1,N,N,...
+or
+..N,N,N-1,N-1
+```
+```
+so let dp[l][r] = the number of ways to arrange the last (r - l + 1) / 2 numbers 
+dp[l][r] = dp[l + 1][r - 1] + dp[l + 2][r] + dp[l][r - 2]
+```
+```
+now, we consider the second constraint.
+we can simply do another iteration for checking
+```
+```
+overrall, O(N^3)
+```
+[code](https://codeforces.com/contest/567/submission/127784130)
+- https://codeforces.com/contest/115/problem/E
+```
+not hard to come up with a dp solution first
+```
+```
+dp[i] = maximal profit we can get if we consider only the first i roads & races 
+are completely covered in the first i roads
+dp[i] = max{dp[i - 1] , max{dp[j - 1] + good(j , i) - cost(j , i)}}
+```
+```
+can we make this faster?
+```
+```
+we can sweep while maintain a range tree that keeps each dp[j] + good(j + 1 , i) - cost(j + 1 , i)
+```
+```
+when we consider i + 1th road, what happen?
+```
+```
+all dp[j] + good(j + 1 , i) - cost(j + 1 , i) get -cost[i + 1], for j <= i
+this need range addition
+```
+```
+for each race that ends with i + 1th road, start with l, all dp[j] get profit of this race
+, j < l
+this also need range addition
+```
+```
+after updates, we query the maximal in our tree
+```
+```
+overrall, we need a lazy tree that supports max query, and range addition
+```
+[code](https://codeforces.com/contest/115/submission/127709002)
+- https://codeforces.com/contest/1561/problem/E
+```
+For this question, think about what case we will not be able to have a solution
+```
+```
+if odd on even / even on odd position => no solution
+```
+```
+since this is about reverse, lets try to fix N and N - 1 first, we can make N - 1 and N to the end
+by 5 steps
+```
+```
+initially , suppose ...N..
+step 1 : N....N-1.... 
+step 2 : .....N,N-1..
+step 3 : N-1,N,......
+step 4 : N,N-1,......
+step 5 : .......N-1,N
+we need a total of (5N) / 2 operations
+```
+[code](https://codeforces.com/contest/1561/submission/127373382)
 - https://codeforces.com/contest/1557/problem/E
 ```
 A hard but interesting interactive problem
+```
+```
+we need to force the king to move to one of the conners to win
+```
+```
+How do we do it?
+```
+```
+if we sweep from column 1 to column 8, what happen to king?
+```
+```
+How many times can king go up if we sweep left to right starting from row 1?
+```
+```
+It is not hard to find the answer after these hints.
 ```
 [code](https://codeforces.com/contest/1557/submission/127256860)
 - https://codeforces.com/contest/1549/problem/E
