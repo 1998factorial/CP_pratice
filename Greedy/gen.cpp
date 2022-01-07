@@ -12,9 +12,15 @@ int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
-    int N = 5000 , M = 1;
-    cout << N << " " << M << endl;
-    for(int i = 1; i <= N; ++i)cout << 961748941 << " ";
-    cout << endl;
-    cout << 2 << endl;
+    srand(time(NULL));
+    int t = 10;
+    cout << t << endl;
+    while(t--){
+        int N = 5 , D = 0;
+        cout << N << " " << D << endl;
+        for(int i = 1; i <= N; ++i){
+            cout << rand() % 10 + 1 << " " << rand() % 10 + 1 << endl;
+        }
+        cout << "\n\n\n";
+    }
 }

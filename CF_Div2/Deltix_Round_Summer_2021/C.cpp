@@ -40,12 +40,3 @@ int main(){
     cout << ans << endl;
 } 
 
-map<int , int> cnt;
-for(int i = 1; i <= N; ++i){
-    cnt[A[i] - i]++;
-}
-int ans = 0;
-for(auto e : cnt){
-    ans += e.second * (e.second - 1) / 2;
-}
-print(ans)

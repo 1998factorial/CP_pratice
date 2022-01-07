@@ -1,5 +1,6 @@
 # CP_pratice
 ## Solutions on codeforces
+
 - https://codeforces.com/contest/567/problem/F
 ```
 2 requirement about permutation
