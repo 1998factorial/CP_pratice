@@ -17,7 +17,7 @@ const ll inf64 = 1e18 + 10;
 const int mod = 998244353;
 int N,cnt[25][26],val[(1<<23)+10][26];
 string s[25];
-ll dp[(1<<23)+10],f[(1<<23)+10];
+ll dp[(1<<23)+10];
 ll mul(ll x,ll y){
     return x*y%mod;
 }
@@ -54,12 +54,9 @@ int main(){
         }
     }
     for(int mask=1;mask<1<<N;++mask){
-        f[mask]=F(mask);
+        dp[mask]=F(mask);
         ll sign=(__builtin_popcount(mask)&1)?1:-1;
-        f[mask]=mul(f[mask],sign);
-    }
-    for(int mask=0;mask<1<<N;++mask){
-        dp[mask]=f[mask];
+        dp[mask]=mul(dp[mask],sign);
     }
     for(int i=0;i<N;++i){
         for(int mask=0;mask<1<<N;++mask){

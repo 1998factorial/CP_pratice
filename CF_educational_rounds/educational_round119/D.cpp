@@ -27,7 +27,7 @@ int main(){
         vector<int>a(N);
         for(int i=0;i<N;++i)cin>>a[i],m=max(m,a[i]);
         int up=(m+2)/3+1,ans=up;
-        for(int total=up-1;total<=up;++total){
+        for(int total=up-1;total<=up+1;++total){
             for(int two=0;two<=2;++two){
                 for(int one=0;one<=2;++one){
                     int three=total-one-two;
