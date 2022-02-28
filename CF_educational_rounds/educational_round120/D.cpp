@@ -57,42 +57,16 @@ int main(){
         cout << 1 << endl;
         return 0;
     }
-    //1100110
-    //[11]00110
-    //[110]0110
-    //[1100]110
-    //1[1001]10
-    int ans = 0 , ones = 0 , L = 1;
-    for(int R = 1; R <= N; ++R){
-        if(a[R] == '0'){
-            if(ones == K){
-                //DEBUG(R);
-                //DEBUG(L);
-                //printf("+= C(%d %d)\n" , R - L , K - 1);
-                ans = add(ans , C(R - L , K - 1));
-            }
-        }
-        else{
-            ++ones;
+    int ans = 1;
+    for(int i = 1; i <= N; ++i){
+        int ones = a[i] == '1';
+        for(int j = i + 1; j <= N; ++j){
+            ones += a[j] == '1';
             if(ones > K){
-                while(L < R && ones > K){
-                    if(a[L] == '1')--ones;
-                    ++L;
-                }
+                break;
             }
-            if(ones == K){
-                //DEBUG(R);
-                //DEBUG(L);
-                //printf("+= C(%d %d)\n" , R - L , K);
-                ans = add(ans , C(R - L , K));
-            }
+            ans = add(ans , C((j - 1) - (i + 1) + 1 , ones - (a[i] == '0') - (a[j] == '0')));
         }
     }
-    cout << add(ans , 1) << endl;
+    cout << ans << endl;
 }
-/*
-K=2
-[1100]110
-1[1001]10
-11[00110]
-*/
